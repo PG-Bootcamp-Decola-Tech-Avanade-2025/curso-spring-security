@@ -24,3 +24,12 @@ A seguinte configuração foi utilizada, incluindo dependências que, acredito, 
     ```
 ##### Em um contexto um pouco mais complexo
 - Não se faz mais uso de usuários padrão; Usa-se usuário in-memory.
+- Divergindo um pouco das aulas pois a mesma faz uso de classes depreciadas e removidas,
+  precisei acessar a documentação do projeto Spring Security para encontrar
+  maneiras mais atualizadas para se resolver os mesmos problemas.
+- Usuários in-memory podem ser definidos utilizando a classe `InMemoryUserDetailsManager`.
+- Autorização de métodos individuas permanece da forma que foi apresentada no curso: utilizando `@PreAuthorize`.
+
+## Referências
+- [Documentação Spring Security - Hello Spring Security](https://docs.spring.io/spring-security/reference/servlet/getting-started.html)
+- [Documentação Spring Security - Method Security](https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html)
