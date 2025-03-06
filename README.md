@@ -29,7 +29,12 @@ A seguinte configuração foi utilizada, incluindo dependências que, acredito, 
   maneiras mais atualizadas para se resolver os mesmos problemas.
 - Usuários in-memory podem ser definidos utilizando a classe `InMemoryUserDetailsManager`.
 - Autorização de métodos individuas permanece da forma que foi apresentada no curso: utilizando `@PreAuthorize`.
+- Autorização baseada no path é um pouco mais complexa; Requer a definição de vários `SecurityFilterChain` na classe de configuração
+  para definir a que URLs da aplicação cada *role* terá ou não acesso. Os links para a documentação listados nas referências,
+  assim como a implementação na classe `security/WebSecurityConfiguration.java` explicam melhor.
 
 ## Referências
 - [Documentação Spring Security - Hello Spring Security](https://docs.spring.io/spring-security/reference/servlet/getting-started.html)
+- [Documentação Spring Security - Basic Authentication](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/basic.html)
 - [Documentação Spring Security - Method Security](https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html)
+- [Documentação Spring Security - Java Configuration](https://docs.spring.io/spring-security/reference/servlet/configuration/java.html)
