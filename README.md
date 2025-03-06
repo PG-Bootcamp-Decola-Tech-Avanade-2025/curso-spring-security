@@ -8,3 +8,19 @@ O projeto foi estruturado da com ajuda da ferramenta [Spring Initializr](start.s
 A seguinte configuração foi utilizada, incluindo dependências que, acredito, serão relevantes no curso.
 
 ![Imagem do setup configurado no Spring Initializr](./img/setup_initializr.png)
+
+## Padões, Conceitos Aplicados e Definições
+### Spring Security
+- Biblioteca do ecossistema Spring responsável por fornecer recursos de autenticação e autorização.
+- Adicionar a biblioteca ao projeto já inclúi configurações iniciais que tornam a aplicação mais segura.
+#### Usuários
+##### Em um contexto de testes simples
+- Por padrão, no spring security, o usuário "user" é utilizado em conjunto com uma senha, gerada a cada inicialização da aplicação, fornecida no terminal.
+- Pode-se criar um usuário padrão através do arquivo application.properties adicionando:
+    ```
+    spring.security.user.name = <nome-de-usuario>
+    spring.security.user.password = <senha>
+    spring.security.user.roles = <roles>
+    ```
+##### Em um contexto um pouco mais complexo
+- Não se faz mais uso de usuários padrão; Usa-se usuário in-memory.
