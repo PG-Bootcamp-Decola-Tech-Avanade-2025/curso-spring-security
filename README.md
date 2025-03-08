@@ -33,8 +33,26 @@ A seguinte configuração foi utilizada, incluindo dependências que, acredito, 
   para definir a que URLs da aplicação cada *role* terá ou não acesso. Os links para a documentação listados nas referências,
   assim como a implementação na classe `security/WebSecurityConfiguration.java` explicam melhor.
 
+### Usuários em Banco de Dados
+- Trabalhando com usuários em banco de dadaos, a classe de usuário deve ser definida.
+- Cuidado ao nomear essa classe como 'User', dessa forma o nome da tabela deve ser definido com
+  `@Table(name = "tb_name")` pois a table 'users' é comummente utilizada.
+- Na implementação, para que conseguisse construir a mesma funcionalidade desenvolvida no curso, precisei seguir um caminho
+  um pouco diferente, utilizando um `AuthenticationProvider` na classe `WebSecurityConfig`;
+  Segui um tutorial disponível no youtube ([neste link](https://www.youtube.com/watch?v=bOX1VYNqKCY)).
+
+### JWT
+- Token gerado a partir de meta-dados e dados de autenticação de usuário, codificado com algum algorítmo para encriptar os dados.
+- Composto de três partes:
+  - Header: Metadados sobre algorítmo usado para codificar os dados e o tipo de token gerado.
+  - Payload: Dados de autenticação e autorização do usuário.
+  - Signature: Assinatura (senha, secret key) para verificação da autenticidade da token.
+
+### JWT no Spring Security: !TBD
+
 ## Referências
 - [Documentação Spring Security - Hello Spring Security](https://docs.spring.io/spring-security/reference/servlet/getting-started.html)
 - [Documentação Spring Security - Basic Authentication](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/basic.html)
 - [Documentação Spring Security - Method Security](https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html)
 - [Documentação Spring Security - Java Configuration](https://docs.spring.io/spring-security/reference/servlet/configuration/java.html)
+- [Telusko (Youtube) - #33 Spring Security | Verify User from Database](https://www.youtube.com/watch?v=bOX1VYNqKCY)
