@@ -14,13 +14,11 @@ public class HomeController {
         return ResponseEntity.ok().build();
     }
 
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("user")
     public ResponseEntity<Void> getUser() {
         return ResponseEntity.ok().build();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("admin")
     public ResponseEntity<Void> getAdmin() {
         return ResponseEntity.ok().build();
