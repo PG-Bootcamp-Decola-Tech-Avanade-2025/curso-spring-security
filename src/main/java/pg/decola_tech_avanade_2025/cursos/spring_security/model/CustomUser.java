@@ -1,6 +1,5 @@
 package pg.decola_tech_avanade_2025.cursos.spring_security.model;
 
-
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

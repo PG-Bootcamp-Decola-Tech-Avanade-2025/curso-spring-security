@@ -18,22 +18,20 @@ public class InitializeUsers implements CommandLineRunner {
     @Transactional
     public void run(String... args) throws Exception {
         if (userRepository.findByUsername("admin") == null) {
-            CustomUser newUser = new CustomUser() {{
-               setName("admin");
-               setUsername("admin");
-               setPassword("admin");
-               setRoles(List.of("ADMIN", "USER"));
-            }};
+            CustomUser newUser = new CustomUser();
+            newUser.setName("admin");
+            newUser.setUsername("admin");
+            newUser.setPassword("admin");
+            newUser.setRoles(List.of("ADMIN", "USER"));
             userRepository.save(newUser);
         }
 
         if (userRepository.findByUsername("user") == null) {
-            CustomUser newUser = new CustomUser() {{
-                setName("user");
-                setUsername("user");
-                setPassword("user");
-                setRoles(List.of("USER"));
-            }};
+            CustomUser newUser = new CustomUser();
+            newUser.setName("user");
+            newUser.setUsername("user");
+            newUser.setPassword("user");
+            newUser.setRoles(List.of("USER"));
             userRepository.save(newUser);
         }
     }
