@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pg.decola_tech_avanade_2025.cursos.spring_security.model.CustomUser;
 import pg.decola_tech_avanade_2025.cursos.spring_security.repository.UserRepository;
+import pg.decola_tech_avanade_2025.cursos.spring_security.service.UserService;
 
 import java.util.List;
 
@@ -13,6 +14,9 @@ import java.util.List;
 public class InitializeUsers implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     @Transactional
@@ -23,7 +27,7 @@ public class InitializeUsers implements CommandLineRunner {
             newUser.setUsername("admin");
             newUser.setPassword("admin");
             newUser.setRoles(List.of("ADMIN", "USER"));
-            userRepository.save(newUser);
+            userService.createUser(newUser);
         }
 
         if (userRepository.findByUsername("user") == null) {
@@ -32,7 +36,7 @@ public class InitializeUsers implements CommandLineRunner {
             newUser.setUsername("user");
             newUser.setPassword("user");
             newUser.setRoles(List.of("USER"));
-            userRepository.save(newUser);
+            userService.createUser(newUser);
         }
     }
 }

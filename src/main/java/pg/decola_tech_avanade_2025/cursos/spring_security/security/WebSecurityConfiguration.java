@@ -11,8 +11,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /*
     Como as classes apresentadas no curso estavam dpreciadas e, algumas,
@@ -37,9 +38,14 @@ public class WebSecurityConfiguration {
     private DatabaseUserDetailsProviderService databaseUserDetailsProviderService;
 
     @Bean
+    public BCryptPasswordEncoder getBCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+        daoAuthenticationProvider.setPasswordEncoder(getBCryptPasswordEncoder());
         daoAuthenticationProvider.setUserDetailsService(databaseUserDetailsProviderService);
         return daoAuthenticationProvider;
     }
@@ -47,19 +53,30 @@ public class WebSecurityConfiguration {
     @Bean
     public SecurityFilterChain h2FilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.securityMatcher("/h2-console/**")
-            .authorizeHttpRequests(authorization -> authorization
-                .anyRequest().permitAll()
-            ).build();
+                .authorizeHttpRequests(authorization -> authorization
+                        .anyRequest().permitAll()
+                ).build();
+    }
+
+    @Bean
+    public SecurityFilterChain loginFilterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity.securityMatcher("/login/**")
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorization -> authorization
+                        .requestMatchers(HttpMethod.POST, "login").permitAll()
+                        .anyRequest().permitAll()
+                ).build();
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.securityMatcher("/user/**", "/admin/**")
-            .csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(authorization -> authorization
-                .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
-            ).httpBasic(Customizer.withDefaults()).build();
+        return httpSecurity.securityMatcher("/users/**", "/admin/**")
+                .csrf(AbstractHttpConfigurer::disable)
+                .addFilterAfter(new JwtFilter(), UsernamePasswordAuthenticationFilter.class)
+                .authorizeHttpRequests(authorization -> authorization
+                        .requestMatchers("/users").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/admin").hasRole("ADMIN")
+                        .anyRequest().authenticated()
+                ).httpBasic(Customizer.withDefaults()).build();
     }
 }
